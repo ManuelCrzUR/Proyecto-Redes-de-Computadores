@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDN Firewall Controller</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 SDN Firewall Controller</h1>
+            <p>Panel de control centralizado para red SDN</p>
+        </header>
+
+        <main>
+            <!-- Panel de Reglas -->
+            <section class="panel">
+                <h2>📋 Reglas Activas</h2>
+                <div class="form-group">
+                    <input type="text" id="ruleSrc" placeholder="IP origen (opcional)">
+                    <input type="text" id="ruleDst" placeholder="IP destino (opcional)">
+                    <select id="ruleProto">
+                        <option value="">Protocolo</option>
+                        <option value="TCP">TCP</option>
+                        <option value="UDP">UDP</option>
+                    </select>
+                    <input type="number" id="ruleDstPort" placeholder="Puerto destino" required>
+                    <select id="ruleAction" required>
+                        <option value="allow">allow</option>
+                        <option value="block">block</option>
+                        <option value="report">report</option>
+                    </select>
+                    <input type="number" id="rulePriority" placeholder="Prioridad" value="10" required>
+                    <input type="text" id="ruleDesc" placeholder="Descripción">
+                    <button onclick="addRule()">+ Crear Regla</button>
+                </div>
+                <table id="rulesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Origen</th>
+                            <th>Destino</th>
+                            <th>Protocolo</th>
+                            <th>Puerto</th>
+                            <th>Acción</th>
+                            <th>Prioridad</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- Panel de Nodos -->
+            <section class="panel">
+                <h2>🖥️ Nodos Registrados</h2>
+                <table id="nodesTable">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>IP</th>
+                            <th>Puerto</th>
+                            <th>Última conexión</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- Panel de Eventos -->
+            <section class="panel">
+                <h2>📡 Eventos Recientes</h2>
+                <button onclick="clearEvents()" style="margin-bottom: 10px;">Limpiar eventos</button>
+                <table id="eventsTable">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Nodo</th>
+                            <th>IP Origen</th>
+                            <th>Protocolo</th>
+                            <th>Puerto</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>Servidor: <span id="serverStatus">Conectando...</span></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

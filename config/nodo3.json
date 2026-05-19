@@ -1,0 +1,5 @@
+{
+  "server_ip": "REEMPLAZAR_CON_IP_SERVIDOR",
+  "node_name": "nodo3",
+  "listen_port": 9003
+}
