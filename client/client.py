@@ -36,9 +36,9 @@ class SDNClient:
             local_ip = self._get_local_ip()
             payload = {"name": self.node_name, "ip": local_ip, "listen_port": self.listen_port}
             res = requests.post(f"{self.server_url}/register", json=payload, timeout=5)
-            logger.info(f"Registrado: {res.json()}")
+            logger.info(f"Nodo registrado: {res.json()}")
         except Exception as e:
-            logger.error(f"Error registrando: {e}")
+            logger.error(f"No fue posible registrar el nodo: {e}")
 
     def poll_rules(self):
         """Descarga reglas del servidor cada 10 segundos."""
@@ -46,15 +46,15 @@ class SDNClient:
             try:
                 res = requests.get(f"{self.server_url}/rules", timeout=5)
                 self.rules = res.json()
-                logger.info(f"Reglas actualizadas: {len(self.rules)} reglas")
+                logger.info(f"Se descargaron {len(self.rules)} reglas del servidor")
             except Exception as e:
-                logger.error(f"Error descargando reglas: {e}")
+                logger.error(f"No fue posible descargar reglas: {e}")
             time.sleep(10)
 
     def on_packet(self, packet_info: dict):
         """Callback al recibir un paquete."""
         action = evaluate(packet_info, self.rules)
-        logger.info(f"Paquete de {packet_info['src_ip']}:{packet_info.get('src_port', '?')} → acción: {action}")
+        logger.info(f"Paquete recibido de {packet_info['src_ip']}:{packet_info.get('src_port', '?')} - accion: {action}")
 
         if action == "report":
             try:
@@ -67,9 +67,9 @@ class SDNClient:
                     "action": action,
                 }
                 requests.post(f"{self.server_url}/events", json=event, timeout=5)
-                logger.info(f"Evento reportado al servidor")
+                logger.info("Evento reportado al servidor")
             except Exception as e:
-                logger.error(f"Error reportando evento: {e}")
+                logger.error(f"No fue posible reportar el evento: {e}")
 
     def _get_local_ip(self) -> str:
         """Obtiene la IP local del cliente."""
@@ -84,7 +84,7 @@ class SDNClient:
 
     def start(self):
         """Inicia el cliente."""
-        logger.info(f"Iniciando cliente {self.node_name}")
+        logger.info(f"Cliente {self.node_name} esta iniciandose")
         self.register()
 
         listener = PacketListener(self.listen_port, self.on_packet)
@@ -96,7 +96,7 @@ class SDNClient:
             while self.running:
                 time.sleep(1)
         except KeyboardInterrupt:
-            logger.info("Deteniendo cliente...")
+            logger.info("Cliente se esta deteniendo...")
             self.running = False
             listener.stop()
 

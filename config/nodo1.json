@@ -1,5 +1,5 @@
 {
-  "server_ip": "REEMPLAZAR_CON_IP_SERVIDOR",
-  "node_name": "nodo1",
+  "server_ip": "192.168.0.6",
+  "node_name": "nodo-laptop-manuel",
   "listen_port": 9001
 }

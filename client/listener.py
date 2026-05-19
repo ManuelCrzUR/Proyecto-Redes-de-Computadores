@@ -21,7 +21,7 @@ class PacketListener:
         self.running = True
         threading.Thread(target=self._listen_udp, daemon=True).start()
         threading.Thread(target=self._listen_tcp, daemon=True).start()
-        logger.info(f"Listener iniciado en puerto {self.listen_port}")
+        logger.info(f"Escuchador iniciado en puerto {self.listen_port}")
 
     def stop(self):
         """Detiene los listeners."""
@@ -36,7 +36,7 @@ class PacketListener:
         self.udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.udp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.udp_sock.bind(("", self.listen_port))
-        logger.info(f"UDP listener en puerto {self.listen_port}")
+        logger.info(f"Escuchador UDP en puerto {self.listen_port}")
 
         while self.running:
             try:
@@ -55,7 +55,7 @@ class PacketListener:
                 pass
             except Exception as e:
                 if self.running:
-                    logger.error(f"Error UDP: {e}")
+                    logger.error(f"Error en UDP: {e}")
 
     def _listen_tcp(self):
         """Escucha conexiones TCP."""
@@ -63,7 +63,7 @@ class PacketListener:
         self.tcp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.tcp_sock.bind(("", self.listen_port + 100))
         self.tcp_sock.listen(5)
-        logger.info(f"TCP listener en puerto {self.listen_port + 100}")
+        logger.info(f"Escuchador TCP en puerto {self.listen_port + 100}")
 
         while self.running:
             try:
@@ -83,4 +83,4 @@ class PacketListener:
                 pass
             except Exception as e:
                 if self.running:
-                    logger.error(f"Error TCP: {e}")
+                    logger.error(f"Error en TCP: {e}")
