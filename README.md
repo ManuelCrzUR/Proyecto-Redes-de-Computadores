@@ -1,5 +1,7 @@
 # SDN Firewall — Distributed Network Firewall System
 
+Manuel Cruz, Isabella Posada, Santiago Peña
+
 A distributed firewall system built on Software-Defined Networking (SDN) architecture with a centralized controller and multiple client nodes that evaluate traffic locally.
 
 ---
